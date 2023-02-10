@@ -121,7 +121,7 @@ void listall(struct node *root)
         return;
     struct node *temp = root;
     // while (temp != NULL)
-    static char a[100]
+    static char a[100];
     a[strlen(a)] = temp->alphabet;
     if (temp->is_word == 1)
     {
