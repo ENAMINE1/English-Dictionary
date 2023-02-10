@@ -1,5 +1,6 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Structure of trie node
 struct node
@@ -29,16 +30,16 @@ void insert(struct node *root, char *word)
     // If root is NULL, create a node and make it root
     int i = 0;
     // Traverse the trie with the given word
-    while(word[i] != '\0')
+    while (word[i] != '\0')
     {
         // If current character of word is not present
-        if(temp->child == NULL)
+        if (temp->child == NULL)
         {
             // Create a node and make it child of root
             temp->child = newNode(word[i]);
-            //temp->child->sibling = NULL;
+            // temp->child->sibling = NULL;
             temp = temp->child;
-            //temp->is word = 0;
+            // temp->is word = 0;
         }
         // If current character is present as child
         else
@@ -46,16 +47,16 @@ void insert(struct node *root, char *word)
             // Traverse the child nodes
             temp = temp->child;
             // If current character is not present as sibling
-            while(temp->sibling != NULL)
+            while (temp->sibling != NULL)
             {
                 // If current character is present as sibling
-                if(temp->alphabet == word[i])
+                if (temp->alphabet == word[i])
                     break;
                 // Else traverse the sibling nodes
                 temp = temp->sibling;
             }
             // If current character is not present as sibling
-            if(temp->alphabet != word[i])
+            if (temp->alphabet != word[i])
             {
                 // Create a new node and make it sibling of last child
                 temp->sibling = newNode(word[i]);
@@ -71,22 +72,25 @@ void insert(struct node *root, char *word)
 int search(struct node *root, char *word)
 {
     // If trie is empty
-    if(root == NULL)
+    if (root == NULL)
         return 0;
-    struct node *temp = root;
+    struct node *temp = root->child;
     int i = 0;
     // Traverse the trie with the given word
-    while(word[i] != '\0')
+    while (word[i] != '\0' && temp != NULL)
     {
-        // If root is NULL it means we have traversed all the child nodes
-        if(temp == NULL)
-            return 0;
+
         // If current character of word is present as child
-        if(temp->alphabet == word[i])
+        if (temp->alphabet == word[i])
         {
             // Traverse the child nodes
-            temp = temp->child;
+            // printf("%c", temp->alphabet);
             i++;
+            if (i == strlen(word))
+            {
+                break;
+            }
+            temp = temp->child;
         }
         // If current character is present as sibling
         else
@@ -96,22 +100,49 @@ int search(struct node *root, char *word)
         }
     }
     // If current character is end of word mark it as leaf node
-    if(temp->is_word == 1)
+    if (temp->is_word == 1)
         return 1;
     return 0;
+}
+
+// print the trie
+void print(struct node *root)
+{
+    if (root == NULL)
+        return;
+    struct node *temp = root;
+    // while (temp != NULL)
+    static char a[100];
+    // {
+    //     printf("%c", temp->alphabet);
+    //     print(temp->child);
+    //     print(temp->sibling);
+    // }
+    a[strlen(a)] = temp->alphabet;
+    // printf("%d \n", strlen(a));
+    if (temp->is_word == 1)
+    {
+        printf("%s\n", a);
+    }
+    print(temp->child);
+    a[strlen(a) - 1] = '\0';
+    // printf("%s\n", a);
+
+    print(temp->sibling);
 }
 
 // Driver program to test above functions
 int main()
 {
     struct node *root = NULL;
-    root = newNode(' ');
+    root = newNode('\0');
     insert(root, "hello");
     insert(root, "world");
     insert(root, "hell");
     insert(root, "word");
     insert(root, "hi");
     insert(root, "bye");
+    print(root);
     printf("%d ", search(root, "hello"));
     printf("%d ", search(root, "world"));
     printf("%d ", search(root, "hell"));
@@ -126,4 +157,3 @@ int main()
     printf("%d ", search(root, "b"));
     return 0;
 }
-
