@@ -50,25 +50,37 @@ void trieinsert(struct node *root, char *word)
                 temp->child = temp1;
                 temp = temp->child;
             }
+            else if (word[i] == temp->child->alphabet)
+            {
+                temp = temp->child;
+            }
             else
             {
-                // Traverse the child nodes
-                temp = temp->child;
-                // If current character is not present as sibling
-                while (temp->sibling != NULL)
+                // If current character is present as sibling
+                struct node *temp1 = temp->child;
+                // Traverse the sibling nodes
+                while (temp1->sibling != NULL && temp1->sibling->alphabet < word[i])
                 {
-                    // If current character is present as sibling
-                    if (temp->alphabet == word[i])
-                        break;
-                    // Else traverse the sibling nodes
-                    temp = temp->sibling;
+                    temp1 = temp1->sibling;
                 }
                 // If current character is not present as sibling
-                if (temp->alphabet != word[i])
+                if (temp1->sibling == NULL)
                 {
-                    // Create a new node and make it sibling of last child
-                    temp->sibling = newNode(word[i]);
-                    temp = temp->sibling;
+                    temp1->sibling = newNode(word[i]);
+                    temp = temp1->sibling;
+                }
+                // If current character is present as sibling
+                else if (temp1->sibling->alphabet == word[i])
+                {
+                    temp = temp1->sibling;
+                }
+                // If current character is present as sibling
+                else
+                {
+                    struct node *temp2 = newNode(word[i]);
+                    temp2->sibling = temp1->sibling;
+                    temp1->sibling = temp2;
+                    temp = temp1->sibling;
                 }
             }
         }
@@ -132,7 +144,7 @@ void listall(struct node *root)
     listall(temp->sibling);
 }
 
-// Driver program to test above functions
+//Driver program to test above functions
 // int main()
 // {
 //     struct node *root = NULL;
@@ -144,6 +156,7 @@ void listall(struct node *root)
 //     trieinsert(root, "hi");
 //     trieinsert(root, "he");
 //     trieinsert(root, "bye");
+//     trieinsert(root, "cat");
 //     listall(root);
 //     printf("%d ", triesearch(root, "hello"));
 //     printf("%d ", triesearch(root, "world"));
