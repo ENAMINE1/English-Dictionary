@@ -16,10 +16,10 @@ typedef struct Trie
 } trie;
 
 // Function to create a new node
-struct node *newNode(char);
+trienode *newNode(char);
 // Function to trieinsert a word in trie
-void trieinsert(struct node *root, char *word);
+void trieinsert(trienode *root, char *word);
 // Function to triesearch a word in trie
-int triesearch(struct node *root, char *word);
+int triesearch(trienode *root, char *word);
 // print the trie
-void listall(struct node *root);
+void listall(trienode *root);
