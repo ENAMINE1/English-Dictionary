@@ -1,20 +1,8 @@
-// Traverse the child nodes
-                temp = temp->child;
-                // If current character is not present as sibling
-                while (temp->sibling != NULL)
-                {
-                    // If current character is present as sibling
-                    if (temp->sibling->alphabet >= word[i])
-                        break;
-                    // Else traverse the sibling nodes
-                    temp = temp->sibling;
-                }
-                // If current character is not present as sibling
-                if (temp->sibling->alphabet != word[i])
-                {
-                    // Create a new node and make it sibling of last child
-                    struct node *temp1 = newNode(word[i]);
-                    temp1->sibling = temp->sibling;
-                    temp->sibling = temp1;
-                    temp = temp->sibling;
-                }
+// Function to create a new node
+struct node *newNode(char);
+// Function to trieinsert a word in trie
+void trieinsert(struct node *root, char *word);
+// Function to triesearch a word in trie
+int triesearch(struct node *root, char *word);
+// print the trie
+void listall(struct node *root);
