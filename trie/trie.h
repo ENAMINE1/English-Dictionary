@@ -1,4 +1,6 @@
-#include<stdlib.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 // Structure of trie_node
 typedef struct node
