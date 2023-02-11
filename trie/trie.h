@@ -22,6 +22,6 @@ trienode *newNode(char);
 // Function to trieinsert a word in trie
 void trieinsert(trienode *root, char *word);
 // Function to triesearch a word in trie
-int triesearch(trienode *root, char *word);
+int triesearch(trienode *root, const char *word);
 // print the trie
 void listall(trienode *root);
