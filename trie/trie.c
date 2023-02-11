@@ -94,8 +94,8 @@ void trieinsert(trienode *root, char *word)
     temp->is_word = 1;
 }
 
-// Function to triesearch a word in trie
-int triesearch(trienode *root, char *word)
+//Function to triesearch a word in trie
+int triesearch(trienode *root, const char *word)
 {
     // If trie is empty
     if (root == NULL)
@@ -144,6 +144,8 @@ void listall(trienode*root)
     // while (temp != NULL)
     static char a[100];
     a[strlen(a)] = temp->alphabet;
+    //printf("%d", strlen(a));
+    //printf("%c\t", temp->alphabet);
     if (temp->is_word == 1)
     {
         printf("%s\n", a);
@@ -154,6 +156,8 @@ void listall(trienode*root)
 }
 
 //Driver program to test above functions
+
+
 // int main()
 // {
 //     trie *t = trieinit();
