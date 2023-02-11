@@ -1,6 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include"trie.h"
 
 // Structure of trie node
@@ -23,6 +20,13 @@ trienode *newNode(char alphabet)
     return temp;
 }
 
+//Function to create a new trie
+trie *trieinit()
+{
+    trie *temp = (trie *)malloc(sizeof(trie));
+    temp->root = newNode('\0');
+    return temp;
+}
 // Function to trieinsert a word in trie
 void trieinsert(trienode *root, char *word)
 {
@@ -120,6 +124,10 @@ int triesearch(trienode *root, char *word)
             // Traverse the sibling nodes
             temp = temp->sibling;
         }
+        if (temp == NULL)
+        {
+            return 0;
+        }
     }
     // If current character is end of word mark it as leaf node
     if (temp->is_word == 1)
@@ -146,33 +154,33 @@ void listall(trienode*root)
 }
 
 //Driver program to test above functions
-int main()
-{
-    trie t;
-    t.root = NULL;
-    t.root = newNode('\0');
-    trieinsert(t.root, "hello");
-    trieinsert(t.root, "world");
-    trieinsert(t.root, "hell");
-    trieinsert(t.root, "word");
-    trieinsert(t.root, "hi");
-    trieinsert(t.root, "he");
-    trieinsert(t.root, "bye");
-    trieinsert(t.root, "cat");
-    listall(t.root);
-    printf("%d ", triesearch(t.root, "hello"));
-    printf("%d ", triesearch(t.root, "world"));
-    printf("%d ", triesearch(t.root, "world"));
-    printf("%d ", triesearch(t.root, "world"));
-    printf("%d ", triesearch(t.root, "hell"));
-    printf("%d ", triesearch(t.root, "word"));
-    printf("%d ", triesearch(t.root, "hi"));
-    printf("%d ", triesearch(t.root, "bye"));
-    printf("%d ", triesearch(t.root, "he"));
-    printf("%d ", triesearch(t.root, "wor"));
-    printf("%d ", triesearch(t.root, "hel"));
-    printf("%d ", triesearch(t.root, "worl"));
-    printf("%d ", triesearch(t.root, "h"));
-    printf("%d ", triesearch(t.root, "b"));
-    return 0;
-}
+// int main()
+// {
+//     trie *t = trieinit();
+//     trieinsert(t->root, "hello");
+//     trieinsert(t->root, "world");
+//     trieinsert(t->root, "hell");
+//     trieinsert(t->root, "word");
+//     trieinsert(t->root, "hi");
+//     trieinsert(t->root, "bye");
+//     trieinsert(t->root, "he");
+//     trieinsert(t->root, "wor");
+//     trieinsert(t->root, "hel");
+//     trieinsert(t->root, "worl");
+//     trieinsert(t->root, "h");
+
+//     listall(t->root);
+//     printf("%d ", triesearch(t->root, "hello"));
+//     printf("%d ", triesearch(t->root, "world"));
+//     printf("%d ", triesearch(t->root, "aell"));
+//     printf("%d ", triesearch(t->root, "word"));
+//     printf("%d ", triesearch(t->root, "hi"));
+//     printf("%d ", triesearch(t->root, "bye"));
+//     printf("%d ", triesearch(t->root, "he"));
+//     printf("%d ", triesearch(t->root, "wor"));
+//     printf("%d ", triesearch(t->root, "hel"));
+//     printf("%d ", triesearch(t->root, "worl"));
+//     printf("%d ", triesearch(t->root, "h"));
+//     printf("%d ", triesearch(t->root, "b"));
+//     return 0;
+// }
