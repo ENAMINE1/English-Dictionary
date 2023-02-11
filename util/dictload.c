@@ -1,8 +1,8 @@
-#include"dicttype.h"
-#include<stdio.h>
+#include "dictload.h"
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#define DFLT_DICT "../dict/word.txt"
+// #include"../trie/trie.c"
 /********************************************************************/
 // Function to create a new node
 trienode *newNode(char alphabet)
@@ -83,7 +83,7 @@ void trieinsert(trienode *root, char *word)
 }
 
 // Function to triesearch a word in trie
-int triesearch(trienode *root, char *word)
+int triesearch(trienode *root, const char *word)
 {
     // If trie is empty
     if (root == NULL)
@@ -128,6 +128,8 @@ void listall(trienode *root)
     // while (temp != NULL)
     static char a[100];
     a[strlen(a)] = temp->alphabet;
+    // printf("%d", strlen(a));
+    // printf("%c\t", temp->alphabet);
     if (temp->is_word == 1)
     {
         printf("%s\n", a);
@@ -138,27 +140,32 @@ void listall(trienode *root)
 }
 
 /********************************************************************/
-void loadaddfltdict(trienode *root)
+trienode *loadaddfltdict(trienode *root)
 {
-    FILE* ptr;
-    char* word;
+    FILE *ptr;
+    char *word;
     // Open the file
     ptr = fopen(DFLT_DICT, "r");
 
-    //check if file is empty
-    if (ptr == NULL) {
+    // check if file is empty
+    if (ptr == NULL)
+    {
         printf("File is empty!!\n");
-        return;
+        return NULL;
     }
     // Read the file
-    while (fscanf(ptr, "%s", word) != EOF) {
+    while (fscanf(ptr, "%s", word) != EOF)
+    {
+        // printf("%s\n", word);
         trieinsert(root, word);
+        // listall(root);
     }
     fclose(ptr);
+    return root;
 }
 
 // Function to load any dictonary
-void loaddict(char* filename,trienode *root)
+trienode *loaddict(char *filename, trienode *root)
 {
     FILE *ptr;
     char *word;
@@ -169,7 +176,7 @@ void loaddict(char* filename,trienode *root)
     if (ptr == NULL)
     {
         printf("File is empty!!\n");
-        return;
+        return NULL;
     }
     // Read the file
     while (fscanf(ptr, "%s", word) != EOF)
@@ -177,21 +184,23 @@ void loaddict(char* filename,trienode *root)
         trieinsert(root, word);
     }
     fclose(ptr);
+    return root;
 }
 
-//Driver code
+// Driver code
 // int main()
 // {
 //     // Create a trie
-//     dict d,d2;
+//     dict d, d2;
 //     d.root = NULL;
 //     d2.root = NULL;
 //     d.root = newNode('\0');
 //     d2.root = newNode('\0');
-//     loadaddfltdict(d.root);
+//     d.root = loadaddfltdict(d.root);
 //     //address of learning gir.txt
-//     loaddict("C:\\Users\\kshas\\OneDrive\\Desktop\\learning git.txt", d2.root);
-//     listall(d.root);
-//     listall(d2.root);
+//     //loaddict("C:\\Users\\kshas\\OneDrive\\Desktop\\learning git.txt", d2.root);
+//     //listall(d.root);
+//     //listall(d2.root);
+//     printf("%d", triesearch(d.root, "well"));
 //     return 0;
 // }

@@ -1,5 +1,6 @@
 #include"dicttype.h"
+#define DFLT_DICT "../dict/word.txt"
 //Function to load default dictionary
-void loadaddfltdict(trienode *root);
+trienode* loadaddfltdict(trienode *root);
 // Function to load a dictionary into a trie
-void loaddict(char *filename, trienode *root);
+trienode* loaddict(char *filename, trienode *root);
