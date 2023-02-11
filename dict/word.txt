@@ -1,1 +1,8 @@
-this is just a sample code for testing the correctness of the code.
+takes a dict D and a string S as parameters (S need not store a valid English word).
+The function should return a single string consisting of all single letters that can be added before S to
+
+takes a dict D and a string S as parameters (S need not store a valid English word).
+The function returns a dynamically allocated array of all permutations of S, that are valid English
+words according to the dictionary D. The array of strings should be null-terminated (similar to argv).
+For example, if you supply opst as S, then all the valid anagrams are opts, post, pots, spot, stop, and
+tops, so the array of strings to be returned by the function should be
