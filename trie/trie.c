@@ -23,7 +23,8 @@ trienode *newNode(char alphabet)
 //Function to create a new trie
 trie *trieinit()
 {
-    trie *temp = (trie *)malloc(sizeof(trie));
+    trie *temp;
+    temp->root == NULL;
     temp->root = newNode('\0');
     return temp;
 }
