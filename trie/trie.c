@@ -1,13 +1,4 @@
-#include"trie.h"
-
-// Structure of trie node
-// typedef struct node
-// {
-//     char alphabet;
-//     struct node *child;
-//     struct node *sibling;
-//     int is_word;
-// }trienode;
+// #include"trie.h"
 
 // Function to create a new node
 trienode *newNode(char alphabet)
@@ -23,7 +14,7 @@ trienode *newNode(char alphabet)
 //Function to create a new trie
 trie *trieinit()
 {
-    trie *temp;
+    trie *temp = (trie *)malloc(sizeof(trie));
     temp->root == NULL;
     temp->root = newNode('\0');
     return temp;
