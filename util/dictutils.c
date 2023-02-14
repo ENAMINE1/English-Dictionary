@@ -1,146 +1,12 @@
 #include "dictutils.h"
+#include "../trie/trie.c"
 /*************************************************************************/
-trienode *newNode(char alphabet)
-{
-    trienode *temp = (trienode *)malloc(sizeof(trienode));
-    temp->alphabet = alphabet;
-    temp->child = NULL;
-    temp->sibling = NULL;
-    temp->is_word = 0;
-    return temp;
-}
-
-// Function to trieinsert a word in trie
-void trieinsert(trienode *root, char *word)
-{
-    // If trie is empty
-    struct node *temp = root;
-    int i = 0;
-    // Traverse the trie with the given word
-    while (word[i] != '\0')
-    {
-        // If current character of word is not present
-        if (temp->child == NULL)
-        {
-            // Create a node and make it child of root
-            temp->child = newNode(word[i]);
-            // temp->child->sibling = NULL;
-            temp = temp->child;
-            // temp->is word = 0;
-        }
-        // If current character is present as child
-        else
-        {
-            if (word[i] < temp->child->alphabet)
-            {
-                struct node *temp1 = newNode(word[i]);
-                temp1->sibling = temp->child;
-                temp->child = temp1;
-                temp = temp->child;
-            }
-            else if (word[i] == temp->child->alphabet)
-            {
-                temp = temp->child;
-            }
-            else
-            {
-                // If current character is present as sibling
-                trienode *temp1 = temp->child;
-                // Traverse the sibling nodes
-                while (temp1->sibling != NULL && temp1->sibling->alphabet < word[i])
-                {
-                    temp1 = temp1->sibling;
-                }
-                // If current character is not present as sibling
-                if (temp1->sibling == NULL)
-                {
-                    temp1->sibling = newNode(word[i]);
-                    temp = temp1->sibling;
-                }
-                // If current character is present as sibling
-                else if (temp1->sibling->alphabet == word[i])
-                {
-                    temp = temp1->sibling;
-                }
-                // If current character is present as sibling
-                else
-                {
-                    trienode *temp2 = newNode(word[i]);
-                    temp2->sibling = temp1->sibling;
-                    temp1->sibling = temp2;
-                    temp = temp1->sibling;
-                }
-            }
-        }
-        i++;
-    }
-    temp->is_word = 1;
-}
-
-// Function to triesearch a word in trie
-int triesearch(trienode *root, const char *word)
-{
-    // If trie is empty
-    if (root == NULL)
-        return 0;
-    trienode *temp = root->child;
-    int i = 0;
-    // Traverse the trie with the given word
-    while (word[i] != '\0' && temp != NULL)
-    {
-
-        // If current character of word is present as child
-        if (temp->alphabet == word[i])
-        {
-            // Traverse the child nodes
-            // printf("%c", temp->alphabet);
-            i++;
-            if (i == strlen(word))
-            {
-                break;
-            }
-            temp = temp->child;
-        }
-        // If current character is present as sibling
-        else
-        {
-            // Traverse the sibling nodes
-            temp = temp->sibling;
-        }
-    }
-    // If current character is end of word mark it as leaf node
-    if (temp != NULL && temp->is_word == 1)
-    {
-        return 1;
-    }
-
-    return 0;
-}
-
-// print the trie
-void listall(trienode *root)
-{
-    if (root == NULL)
-        return;
-    trienode *temp = root;
-    // while (temp != NULL)
-    static char a[100];
-    a[strlen(a)] = temp->alphabet;
-    if (temp->is_word == 1)
-    {
-        printf("%s\n", a);
-    }
-    listall(temp->child);
-    a[strlen(a) - 1] = '\0';
-    listall(temp->sibling);
-}
-
-/************************************************************************/
 
 trienode *loadaddfltdict(trienode *root)
 {
     FILE *ptr;
     char *word;
+    word = (char *)malloc(sizeof(char) * 100);
     // Open the file
     ptr = fopen(DFLT_DICT, "r");
 
@@ -160,19 +26,6 @@ trienode *loadaddfltdict(trienode *root)
 }
 
 /************************************************************************/
-// Swap two strings
-void swap(char *x, char *y)
-{
-    char temp;
-    temp = *x;
-    *x = *y;
-    *y = temp;
-}
-// Compare two strings
-int compare(const void *a, const void *b)
-{
-    return strcmp(*(const char **)a, *(const char **)b);
-}
 // The function should return a single string consisting of all single letters that can be added before S to obtain valid English words.
 char *addbefore(dict D, char *S)
 {
@@ -203,7 +56,7 @@ char *addbefore(dict D, char *S)
     // If no characters can be added before S to obtain valid English words
     if (strlen(characters) == 0)
     {
-        printf("No characters can be added before \"%s\" to obtain valid English words.\n", S);
+        // printf("No characters can be added before \"%s\" to obtain valid English words.\n", S);
         return characters;
     }
     return characters;
@@ -239,23 +92,133 @@ char *addafter(dict D, char *S)
     // If no characters can be added before S to obtain valid English words
     if (strlen(characters) == 0)
     {
-        printf("No characters can be added before \"%s\" to obtain valid English words.\n", S);
+        // printf("No characters can be added after \"%s\" to obtain valid English words.\n", S);
         return characters;
     }
     return characters;
 }
 // The function returns a dynamically allocated array of all permutations of S, that are valid Englishwords according to the dictionary D
 
-// Driver code
-int main()
+int compare(const void *a, const void *b)
 {
-    dict D;
-    D.root = NULL;
-    D.root = newNode('\0');
-    D.root = loadaddfltdict(D.root);
-    // listall(D.root);
-    char *S = "ball";
-    char *characters = addafter(D, S);
-    printf("%s", characters);
-    return 0;
+    return (*(char *)a - *(char *)b);
 }
+
+// A utility function two swap two characters a and b
+void swap(char *a, char *b)
+{
+    char t = *a;
+    *a = *b;
+    *b = t;
+}
+
+// This function finds the index of the smallest character
+// which is greater than 'first' and is present in str[l..h]
+int findCeil(char str[], char first, int l, int h)
+{
+    // initialize index of ceiling element
+    int ceilIndex = l;
+
+    // Now iterate through rest of the elements and find
+    // the smallest character greater than 'first'
+    for (int i = l + 1; i <= h; i++)
+        if (str[i] > first && str[i] < str[ceilIndex])
+            ceilIndex = i;
+
+    return ceilIndex;
+}
+
+// Print all permutations of str in sorted order
+char **sortedPermutations(dict D, char s[])
+{
+    // Dunamically allocating memory for stroring the valid strings
+    char **ans = (char **)malloc(sizeof(char *));
+    ans[0] = NULL;
+    int ans_len = 1;
+
+    // Get size of string and allocate memory for the string
+    char str[strlen(s) + 1];
+    for (int i = 0; i < strlen(s); i++)
+    {
+        str[i] = s[i];
+    }
+    str[strlen(s)] = '\0';
+    // Get size of string
+    int size = strlen(str);
+
+    // Sort the string in increasing order
+    qsort(str, size, sizeof(str[0]), compare);
+    // printf("%s\n", str);
+
+    // Print permutations one by one
+    int isFinished = 0;
+
+    while (!isFinished)
+    {
+        // print this permutation
+        if (triesearch(D.root, str) == 1)
+        {
+            ans_len++;
+            ans = realloc(ans, ans_len * sizeof(char *));
+            char *temp = (char *)malloc((size + 1) * sizeof(str));
+            strcpy(temp, str);
+            ans[ans_len - 1] = temp;
+            // printf("%s\t", ans[ans_len - 1]);
+            // printf("%s\n", str);
+        }
+
+        // Find the rightmost character which is smaller than its next
+        // character. Let us call it 'first char'
+        int i;
+        for (i = size - 2; i >= 0; --i)
+            if (str[i] < str[i + 1])
+                break;
+        // If there is no such character, all are sorted in decreasing order,
+        // means we just printed the last permutation and we are done.
+        if (i == -1)
+            isFinished = 1;
+        else
+        {
+            // Find the ceil of 'first char' in right of first character.
+            // Ceil of a character is the smallest character greater than it
+            int ceilIndex = findCeil(str, str[i], i + 1, size - 1);
+            // Swap first and second characters
+            swap(&str[i], &str[ceilIndex]);
+
+            // Sort the string on right of 'first char'
+            qsort(str + i + 1, size - i - 1, sizeof(str[0]), compare);
+            // printf("%s\n", str);
+        }
+    }
+    ans[0] = ans[ans_len - 1];
+    ans[ans_len - 1] = NULL;
+    return ans;
+}
+
+
+// Driver code
+// int main()
+// {
+//     dict D;
+//     D.root = NULL;
+//     D.root = newNode('\0');
+//     D.root = loadaddfltdict(D.root);
+//     // listall(D.root);
+
+//     char S[] = "stop";
+//     // printf("%d\t", triesearch(D.root, S));
+//     char *characters = addbefore(D, S);
+//     printf("%s\n", characters);
+
+//     characters = addafter(D, S);
+//     printf("%s", characters);
+
+//     // sortedPermutations(D, S);
+//     char **ans = sortedPermutations(D, S);
+//     for (int i = 0; ans[i] != NULL; i++)
+//     {
+//         printf("%s\n", ans[i]);
+//     }
+
+//     return 0;
+// }
