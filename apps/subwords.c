@@ -1,10 +1,12 @@
-#include "../util/dictutils.c"
+#include "../util/dictutils.h"
 
 int main()
 {
-    char _str[] = "potsp";
-    // scanf("%s", _str);
-    // char *str = strdup(_str);
+    char *_str;
+    // char s[] = "abac";
+    _str = (char *)malloc(100 * sizeof(char));
+    scanf("%s", _str);
+    char *str = strdup(_str);
     dict D;
     D.root = NULL;
     D.root = newNode('\0');
