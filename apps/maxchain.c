@@ -1,4 +1,4 @@
-#include "../util/dictutils.c"
+#include "../util/dictutils.h"
 typedef struct nod
 {
     int l;
