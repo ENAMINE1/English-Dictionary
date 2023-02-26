@@ -1,4 +1,4 @@
-//Makefile
+#Makefile
 libutil.so: dictutils.o dictload.o
 	gcc -shared -o libutil.so dictutils.o dictload.o -L../trie -ltrie
 dictutils.o: dictutils.c dictutils.h
