@@ -1,14 +1,10 @@
 #include "dictload.h"
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include "../trie/trie.c"
-
 /********************************************************************/
 trienode *loadaddfltdict(trienode *root)
 {
     FILE *ptr;
     char *word;
+    word = (char *)malloc(100 * sizeof(char));
     // Open the file
     ptr = fopen(DFLT_DICT, "r");
 
@@ -34,6 +30,7 @@ trienode *loaddict(char *filename, trienode *root)
 {
     FILE *ptr;
     char *word;
+    word = (char *)malloc(100 * sizeof(char));
     // Open the file
     ptr = fopen(filename, "r");
 
