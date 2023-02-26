@@ -1,43 +1,44 @@
 #include "dictutils.h"
-#include "../trie/trie.c"
+// #include"../trie/trie.c"
 /*************************************************************************/
+// #define DFLT_DICT "../dict/word.txt"
+// trienode *loadaddfltdict(trienode *root)
+// {
+//     FILE *ptr;
+//     char *word;
+//     word = (char *)malloc(sizeof(char) * 100);
+//     //Open the file
+//     ptr = fopen(DFLT_DICT, "r");
 
-trienode *loadaddfltdict(trienode *root)
-{
-    FILE *ptr;
-    char *word;
-    word = (char *)malloc(sizeof(char) * 100);
-    // Open the file
-    ptr = fopen(DFLT_DICT, "r");
-
-    // check if file is empty
-    if (ptr == NULL)
-    {
-        printf("File is empty!!\n");
-        return NULL;
-    }
-    // Read the file
-    while (fscanf(ptr, "%s", word) != EOF)
-    {
-        trieinsert(root, word);
-    }
-    fclose(ptr);
-    return root;
-}
+//     //check if file is empty
+//     if (ptr == NULL)
+//     {
+//         printf("File is empty!!\n");
+//         return NULL;
+//     }
+//     //Read the file
+//     while (fscanf(ptr, "%s", word) != EOF)
+//     {
+//         trieinsert(root, word);
+//     }
+//     fclose(ptr);
+//     return root;
+// }
 
 /************************************************************************/
 // The function should return a single string consisting of all single letters that can be added before S to obtain valid English words.
 char *addbefore(dict D, char *S)
 {
     // listall(D.root);
-    char *characters = (char *)malloc(sizeof(char) * 26);
+    char *characters = (char *)malloc(sizeof(char) * 27);
     characters[0] = '\0';
     int j = 0;
-    for (int i = 'a'; i < 'z'; i++)
+    for (int i = 'a'; i <= 'z'; i++)
     {
-        char temp[strlen(S) + 1];
+        char temp[strlen(S) + 2];
         char c = i;
         temp[0] = c;
+        temp[1] = '\0';
         strcat(temp, S);
         // printf("%s\n", temp);
         char *word = temp;
@@ -66,10 +67,10 @@ char *addbefore(dict D, char *S)
 char *addafter(dict D, char *S)
 {
     // listall(D.root);
-    char *characters = (char *)malloc(sizeof(char) * 26);
+    char *characters = (char *)malloc(sizeof(char) * 27);
     characters[0] = '\0';
     int j = 0;
-    for (int i = 'a'; i < 'z'; i++)
+    for (int i = 'a'; i <= 'z'; i++)
     {
         char temp[strlen(S) + 1];
         char c = i;
