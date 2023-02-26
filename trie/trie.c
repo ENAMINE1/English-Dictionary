@@ -1,4 +1,4 @@
-// #include"trie.h"
+#include "trie.h"
 
 // Function to create a new node
 trienode *newNode(char alphabet)
