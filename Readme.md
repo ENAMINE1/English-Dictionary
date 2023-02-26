@@ -1,3 +1,5 @@
+#English-Dictionary
+
 This project is based on implementation of dictionary using c language and performing certain operations on the dictionary.
 The code has beed divided into different files and folders as follows:
   The apps folder contains the main functions to perform operation on the dictionary.
