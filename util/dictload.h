@@ -1,4 +1,8 @@
-#include"dicttype.h"
+#include "dictutils.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
 #define DFLT_DICT "../dict/word.txt"
 //Function to load default dictionary
 trienode* loadaddfltdict(trienode *root);
