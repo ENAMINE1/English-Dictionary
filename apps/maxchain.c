@@ -1,4 +1,32 @@
-#include "../util/dictutils.h"
+#include "../util/wordutils.h"
+// #include"../trie/trie.c"
+// #include"../util/dictutils.c"
+trienode *loadaddfltdict(trienode *root)
+{
+    FILE *ptr;
+    char *word;
+    word = (char *)malloc(100 * sizeof(char));
+    // Open the file
+    ptr = fopen(DFLT_DICT, "r");
+
+    // check if file is empty
+    if (ptr == NULL)
+    {
+        printf("File is empty!!\n");
+        return NULL;
+    }
+    // Read the file
+    while (fscanf(ptr, "%s", word) != EOF)
+    {
+        // printf("%s\n", word);
+        trieinsert(root, word);
+        // listall(root);
+    }
+    fclose(ptr);
+    return root;
+}
+/***************************************************************************************************/
+
 typedef struct nod
 {
     int l;
@@ -6,10 +34,14 @@ typedef struct nod
 } new;
 new recur(dict d, char *str)
 {
-
     int len = strlen(str);
-    char *a = addafter(d, str);
-    char *b = addbefore(d, str);
+
+    char *a;
+    a = (char *)malloc(100 * sizeof(char));
+    a = addafter(d, str);
+    char *b;
+    b = (char *)malloc(100 * sizeof(char));
+    b= addbefore(d, str);
     new n;
     new c;
     // Gives the length of the longest chain of valid words that can be obtained by adding single letters to the beginning or end of words
@@ -107,7 +139,7 @@ int main()
     // // maxchain(D, S);
     // char str[] = "s";
     printf("Enter the string: ");
-    char *str;
+    char *str = (char *)malloc(100 * sizeof(char));
     scanf("%s", str);
     print(D, str);
     return 0;
