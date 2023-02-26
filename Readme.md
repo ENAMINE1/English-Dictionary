@@ -1,4 +1,4 @@
-![Algorithm schema](./images/schema.jpg)
+![Algorithm schema](https://i.pinimg.com/originals/6e/46/e7/6e46e7dbe2bb73dacc055e5dbd85c3ad.png)
 # English-Dictionary #
 
 This project is based on implementation of dictionary using c language and performing certain operations on the dictionary.
