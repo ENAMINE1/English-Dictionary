@@ -1,4 +1,4 @@
-#English-Dictionary
+# English-Dictionary
 
 This project is based on implementation of dictionary using c language and performing certain operations on the dictionary.
 The code has beed divided into different files and folders as follows:
